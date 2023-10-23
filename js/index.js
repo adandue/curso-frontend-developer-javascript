@@ -5,7 +5,9 @@ const mobileMenu = document.querySelector('.mobile-menu');
 const burgerButton = document.querySelector('#burger-button');
 const cartIcon = document.querySelector('.navbar-shopping-cart');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
+const productDetailContainer = document.querySelector('#productDetail');
 const cardsContainer = document.querySelector('.cards-container');
+const productDetailCloseIcon = document.querySelector('.product-detail-close');
 //functions
 const toggleDesktopMenu = () => {
     const isShoppingCartContainerClosed = shoppingCartContainer.classList.contains('inactive');
@@ -19,23 +21,37 @@ const toggleMobileMenu = () => {
     if(!isShoppingCartContainerClosed) {
         shoppingCartContainer.classList.add('inactive');
     }
+    closeProductDetailAside();
     mobileMenu.classList.toggle('inactive');
 }
 const toggleCartMenu = () => {
     const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
-    const isDesktopMenuClosed = desktopMenu.classList.contains('inactive')
+    const isDesktopMenuClosed = desktopMenu.classList.contains('inactive');
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
 
     if(!isMobileMenuClosed) {
         mobileMenu.classList.add('inactive');
-    } else if (!isDesktopMenuClosed){
+    }
+    if (!isDesktopMenuClosed){
         desktopMenu.classList.add('inactive');
     }
+    if (!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    }
     shoppingCartContainer.classList.toggle('inactive');
+}
+const openProductDetailAside = () => {
+    shoppingCartContainer.classList.add('inactive');
+    productDetailContainer.classList.remove('inactive');
+}
+const closeProductDetailAside = () => {
+    productDetailContainer.classList.add('inactive');
 }
 //events
 menuEmail.addEventListener('click', toggleDesktopMenu);
 burgerButton.addEventListener('click', toggleMobileMenu);
 cartIcon.addEventListener('click', toggleCartMenu);
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside)
 
 const productList = [];
 productList.push({
@@ -46,7 +62,7 @@ productList.push({
 productList.push({
     name: 'TV',
     price: 850.00,
-    image: 'https://chedrauimx.vtexassets.com/arquivos/ids/20289429-800-auto?v=638326357629100000&width=800&height=auto&aspect=true',
+    image: 'https://www.cyberpuerta.mx/img/product/XL/CP-LG-55UH5J-dc6dbf.jpg',
 });
 productList.push({
     name: 'Playstation',
@@ -71,7 +87,7 @@ productList.push({
 productList.push({
     name: 'TV',
     price: 850.00,
-    image: 'https://chedrauimx.vtexassets.com/arquivos/ids/20289429-800-auto?v=638326357629100000&width=800&height=auto&aspect=true',
+    image: 'https://www.cyberpuerta.mx/img/product/XL/CP-LG-55UH5J-dc6dbf.jpg',
 });
 productList.push({
     name: 'Playstation',
@@ -111,6 +127,7 @@ const renderProducts = (arr) => {
         const productImg = document.createElement('img');
         //product = {name, price, image} --> product.image
         productImg.setAttribute('src', product.image);
+        productImg.addEventListener('click', openProductDetailAside)
     
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
